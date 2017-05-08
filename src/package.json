@@ -1,0 +1,14 @@
+{
+  "name": "openslide-node",
+  "version": "1.0.0",
+  "description": "Open slide nodejs addon",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "GaoYongqing",
+  "license": "ISC",
+  "dependencies": {
+    "nan": "^2.6.2"
+  }
+}
