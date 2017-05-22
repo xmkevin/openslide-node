@@ -49,7 +49,8 @@ INCS_Debug := \
 	-I/Users/gaoyongqing/.node-gyp/7.8.0/src \
 	-I/Users/gaoyongqing/.node-gyp/7.8.0/deps/uv/include \
 	-I/Users/gaoyongqing/.node-gyp/7.8.0/deps/v8/include \
-	-I$(srcdir)/node_modules/._nan@2.6.2@nan
+	-I$(srcdir)/node_modules/._nan@2.6.2@nan \
+	-I/usr/local/include
 
 DEFS_Release := \
 	'-DNODE_GYP_MODULE_NAME=openslide' \
@@ -96,7 +97,8 @@ INCS_Release := \
 	-I/Users/gaoyongqing/.node-gyp/7.8.0/src \
 	-I/Users/gaoyongqing/.node-gyp/7.8.0/deps/uv/include \
 	-I/Users/gaoyongqing/.node-gyp/7.8.0/deps/v8/include \
-	-I$(srcdir)/node_modules/._nan@2.6.2@nan
+	-I$(srcdir)/node_modules/._nan@2.6.2@nan \
+	-I/usr/local/include
 
 OBJS := \
 	$(obj).target/$(TARGET)/openslide.o
