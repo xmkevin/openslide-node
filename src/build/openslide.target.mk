@@ -157,7 +157,8 @@ LIBTOOLFLAGS_Release := \
 	-Wl,-no_pie \
 	-Wl,-search_paths_first
 
-LIBS :=
+LIBS := \
+	/usr/local/Cellar/openslide/3.4.1_2/lib/libopenslide.dylib
 
 $(builddir)/openslide.node: GYP_LDFLAGS := $(LDFLAGS_$(BUILDTYPE))
 $(builddir)/openslide.node: LIBS := $(LIBS)

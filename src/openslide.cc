@@ -1,7 +1,12 @@
 #include <nan.h>
 #include <openslide/openslide.h>
+#include <string>
 
-void OpenSlide_Detect_Vendor(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+using namespace std;
+using namespace Nan;
+using namespace v8;
+
+void Detect_Vendor(const Nan::FunctionCallbackInfo<v8::Value>& info) {
   
   if (info.Length() == 0) {
     Nan::ThrowTypeError("Wrong number of arguments");
@@ -13,17 +18,16 @@ void OpenSlide_Detect_Vendor(const Nan::FunctionCallbackInfo<v8::Value>& info) {
     return;
   }
 
-  v8::Local<v8::String> filePath = info[0]->ToString();
-  const char *fileName = *filePath;
-  char *vendor = openslide_detect_vendor(fileName);
+  v8::String::Utf8Value val(info[0]->ToString());
+  std::string filePath (*val);
+  //const char *vendor = openslide_detect_vendor(filePath.c_str());
 
-  v8::Local<v8::String> vendorString = Nan::New(vendor);
-  info.GetReturnValue().Set(vendorString);
+  info.GetReturnValue().Set(Nan::New<String>(filePath.c_str()).ToLocalChecked());
 }
 
 void Init(v8::Local<v8::Object> exports) {
   exports->Set(Nan::New("detect_vendor").ToLocalChecked(),
-               Nan::New<v8::FunctionTemplate>(OpenSlide_Detect_Vendor)->GetFunction());
+               Nan::New<v8::FunctionTemplate>(Detect_Vendor)->GetFunction());
 }
 
 NODE_MODULE(openslide, Init)
