@@ -20,9 +20,9 @@ void Detect_Vendor(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 
   v8::String::Utf8Value val(info[0]->ToString());
   std::string filePath (*val);
-  //const char *vendor = openslide_detect_vendor(filePath.c_str());
+  const char *vendor = openslide_detect_vendor(filePath.c_str());
 
-  info.GetReturnValue().Set(Nan::New<String>(filePath.c_str()).ToLocalChecked());
+  info.GetReturnValue().Set(Nan::New<String>(vendor).ToLocalChecked());
 }
 
 void Init(v8::Local<v8::Object> exports) {
