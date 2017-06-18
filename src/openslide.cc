@@ -1,6 +1,7 @@
 #include <nan.h>
 #include <openslide/openslide.h>
 #include <string>
+#include "openslideobject.h"
 
 using namespace std;
 using namespace Nan;
@@ -28,6 +29,8 @@ void Detect_Vendor(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 void Init(v8::Local<v8::Object> exports) {
   exports->Set(Nan::New("detect_vendor").ToLocalChecked(),
                Nan::New<v8::FunctionTemplate>(Detect_Vendor)->GetFunction());
+
+  OpenSlideObject::Init(exports);
 }
 
 NODE_MODULE(openslide, Init)

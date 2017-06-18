@@ -2,7 +2,7 @@
   "targets": [
     {
       "target_name": "openslide",
-      "sources": [ "openslide.cc" ],
+      "sources": [ "openslide.cc", "openslideobject.cc" ],
       "include_dirs": [
         "<!(node -e \"require('nan')\")",
 	"/usr/local/include"

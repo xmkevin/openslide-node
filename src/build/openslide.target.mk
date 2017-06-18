@@ -101,7 +101,8 @@ INCS_Release := \
 	-I/usr/local/include
 
 OBJS := \
-	$(obj).target/$(TARGET)/openslide.o
+	$(obj).target/$(TARGET)/openslide.o \
+	$(obj).target/$(TARGET)/openslideobject.o
 
 # Add to the list of files we specially track dependencies for.
 all_deps += $(OBJS)
