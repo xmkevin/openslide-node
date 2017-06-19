@@ -7,6 +7,9 @@ OpenSlideObject::OpenSlideObject(string fileName) {
 }
 
 OpenSlideObject::~OpenSlideObject() {
+  if (_osr != NULL) {
+    openslide_close(_osr);
+  }
 }
 
 void OpenSlideObject::Init(v8::Local<v8::Object> exports) {
@@ -42,7 +45,16 @@ void OpenSlideObject::New(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 
 void OpenSlideObject::Open(const Nan::FunctionCallbackInfo<v8::Value>& info) {
     OpenSlideObject *obj = ObjectWrap::Unwrap<OpenSlideObject>(info.Holder());
-    obj->_osr = openslide_open(obj->_fileName.c_str());
-    bool success = obj->_osr != NULL;
-    info.GetReturnValue().Set(Nan::New(success));
+    openslide_t *osr = openslide_open(obj->_fileName.c_str());
+    bool success = osr != NULL;
+    if (!success) {
+      info.GetReturnValue().Set(Nan::New(success));
+      return;
+    }
+    // Assign osr to member variable
+    obj->_osr = osr;
+
+    
+
+    
 }
