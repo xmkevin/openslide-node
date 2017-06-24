@@ -1,6 +1,7 @@
 #include <nan.h>
 #include <openslide/openslide.h>
 #include <string>
+#include <map>
 
 using namespace std;
 using namespace Nan;
@@ -20,9 +21,9 @@ class OpenSlideObject : public Nan::ObjectWrap {
         openslide_t *_osr;
         std::string _fileName;
         int32_t _levelCount;
-        int64_t[] _levelWidths;
-        int64_t[] _levelHeights;
-        double[] _levelDownsamples;
-
+        std::vector<int64_t> _levelWidths;
+        std::vector<int64_t> _levelHeights;
+        std::vector<double> _levelDownsamples;
+        std::map<std::string,std::string> _properties;
 
 };

@@ -54,7 +54,29 @@ void OpenSlideObject::Open(const Nan::FunctionCallbackInfo<v8::Value>& info) {
     // Assign osr to member variable
     obj->_osr = osr;
 
-    
+    // Store level count
+    int32_t levelCount = openslide_get_level_count(osr);
+    obj->_levelCount = levelCount;
 
+    // Store dimensions
+    for (int i = 0; i < levelCount; i++) {
+      int64_t w, h;
+      double downsample;
+      openslide_get_level_dimensions(osr,i,&w,&h);
+      downsample = openslide_get_level_downsample(osr,i);
+      obj->_levelWidths.push_back(w);
+      obj->_levelHeights.push_back(h);
+      obj->_levelDownsamples.push_back(downsample);
+    }
+
+    // Properties
+    const char* const *pNames = openslide_get_property_names(osr);
+    int i = 0; 
+    while (pNames[i] != 0) {
+      const char *pValue = openslide_get_property_value(osr,pNames[i]);
+      obj->_properties[pNames[i]] = pValue;
+    }
     
+    // Return success
+    info.GetReturnValue().Set(Nan::New(success));
 }
