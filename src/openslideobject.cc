@@ -51,6 +51,9 @@ void OpenSlideObject::Open(const Nan::FunctionCallbackInfo<v8::Value>& info) {
       info.GetReturnValue().Set(Nan::New(success));
       return;
     }
+    info.GetReturnValue().Set(Nan::New(success));
+    return;
+
     // Assign osr to member variable
     obj->_osr = osr;
 
@@ -75,6 +78,7 @@ void OpenSlideObject::Open(const Nan::FunctionCallbackInfo<v8::Value>& info) {
     while (pNames[i] != 0) {
       const char *pValue = openslide_get_property_value(osr,pNames[i]);
       obj->_properties[pNames[i]] = pValue;
+      i++;
     }
     
     // Return success
