@@ -21,9 +21,11 @@ void OpenSlideObject::Init(v8::Local<v8::Object> exports) {
     tpl->InstanceTemplate()->SetInternalFieldCount(1);
 
     Nan::SetPrototypeMethod(tpl,"open",Open);
+    Nan::SetPrototypeMethod(tpl,"levelCount", GetLevelCount);
 
     constructor.Reset(tpl->GetFunction());
     exports->Set(Nan::New("OpenSlideObject").ToLocalChecked(), tpl->GetFunction());
+    
 }
 
 void OpenSlideObject::New(const Nan::FunctionCallbackInfo<v8::Value>& info) {
@@ -51,8 +53,6 @@ void OpenSlideObject::Open(const Nan::FunctionCallbackInfo<v8::Value>& info) {
       info.GetReturnValue().Set(Nan::New(success));
       return;
     }
-    info.GetReturnValue().Set(Nan::New(success));
-    return;
 
     // Assign osr to member variable
     obj->_osr = osr;
@@ -83,4 +83,10 @@ void OpenSlideObject::Open(const Nan::FunctionCallbackInfo<v8::Value>& info) {
     
     // Return success
     info.GetReturnValue().Set(Nan::New(success));
+}
+
+void OpenSlideObject::GetLevelCount(const Nan::FunctionCallbackInfo<v8::Value>& info) 
+{
+  OpenSlideObject *obj = ObjectWrap::Unwrap<OpenSlideObject>(info.Holder());
+  info.GetReturnValue().Set(Nan::New(obj->_levelCount));
 }
