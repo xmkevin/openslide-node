@@ -26,6 +26,9 @@ void OpenSlideObject::Init(v8::Local<v8::Object> exports) {
     Nan::SetAccessor(itpl,
                       Nan::New("levelCount").ToLocalChecked(),
                       OpenSlideObject::GetLevelCount);
+    Nan::SetAccessor(itpl,
+                      Nan::New("levelWidths").ToLocalChecked(),
+                      OpenSlideObject::GetLevelWidths);
 
     constructor.Reset(tpl->GetFunction());
     exports->Set(Nan::New("OpenSlideObject").ToLocalChecked(), tpl->GetFunction());
@@ -92,4 +95,17 @@ void OpenSlideObject::Open(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 NAN_GETTER(OpenSlideObject::GetLevelCount) {
   OpenSlideObject *obj = ObjectWrap::Unwrap<OpenSlideObject>(info.Holder());
   info.GetReturnValue().Set(Nan::New(obj->_levelCount));
+}
+
+NAN_GETTER(OpenSlideObject::GetLevelWidths) {
+  OpenSlideObject *obj = ObjectWrap::Unwrap<OpenSlideObject>(info.Holder());
+  std::vector<int64_t> levelWidths = obj->_levelWidths;
+  
+  v8::Local<v8::Array> result = Nan::New<v8::Array>(levelWidths.size());
+  for ( size_t i = 0; i < levelWidths.size(); i++) {
+    int64_t w = levelWidths[i];
+    Nan::Set(result,i, Nan::New<v8::Number>(w));
+  }
+
+  info.GetReturnValue().Set(result);
 }
