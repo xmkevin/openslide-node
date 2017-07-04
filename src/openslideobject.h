@@ -18,7 +18,7 @@ class OpenSlideObject : public Nan::ObjectWrap {
         static void New(const Nan::FunctionCallbackInfo<v8::Value>& info);
         static void Open(const Nan::FunctionCallbackInfo<v8::Value>& info);
         // Properties
-        static void GetLevelCount(const Nan::FunctionCallbackInfo<v8::Value>& info);
+        static NAN_GETTER(GetLevelCount);
         // Fields
         openslide_t *_osr;
         std::string _fileName;
