@@ -35,3 +35,6 @@
 # Project dirs
 build
 data
+
+#vscode
+.vscode
