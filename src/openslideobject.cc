@@ -29,6 +29,12 @@ void OpenSlideObject::Init(v8::Local<v8::Object> exports) {
     Nan::SetAccessor(itpl,
                       Nan::New("levelWidths").ToLocalChecked(),
                       OpenSlideObject::GetLevelWidths);
+    Nan::SetAccessor(itpl,
+                      Nan::New("levelHeights").ToLocalChecked(),
+                      OpenSlideObject::GetLevelHeights);
+    Nan::SetAccessor(itpl,
+                      Nan::New("levelDownsamples").ToLocalChecked(),
+                      OpenSlideObject::GetLevelDownsamples);
 
     constructor.Reset(tpl->GetFunction());
     exports->Set(Nan::New("OpenSlideObject").ToLocalChecked(), tpl->GetFunction());
@@ -104,6 +110,32 @@ NAN_GETTER(OpenSlideObject::GetLevelWidths) {
   v8::Local<v8::Array> result = Nan::New<v8::Array>(levelWidths.size());
   for ( size_t i = 0; i < levelWidths.size(); i++) {
     int64_t w = levelWidths[i];
+    Nan::Set(result,i, Nan::New<v8::Number>(w));
+  }
+
+  info.GetReturnValue().Set(result);
+}
+
+NAN_GETTER(OpenSlideObject::GetLevelHeights) {
+  OpenSlideObject *obj = ObjectWrap::Unwrap<OpenSlideObject>(info.Holder());
+  std::vector<int64_t> levelHeights = obj->_levelHeights;
+  
+  v8::Local<v8::Array> result = Nan::New<v8::Array>(levelHeights.size());
+  for ( size_t i = 0; i < levelHeights.size(); i++) {
+    int64_t w = levelHeights[i];
+    Nan::Set(result,i, Nan::New<v8::Number>(w));
+  }
+
+  info.GetReturnValue().Set(result);
+}
+
+NAN_GETTER(OpenSlideObject::GetLevelDownsamples) {
+  OpenSlideObject *obj = ObjectWrap::Unwrap<OpenSlideObject>(info.Holder());
+  std::vector<double> downsamples = obj->_levelDownsamples;
+  
+  v8::Local<v8::Array> result = Nan::New<v8::Array>(downsamples.size());
+  for ( size_t i = 0; i < downsamples.size(); i++) {
+    double w = downsamples[i];
     Nan::Set(result,i, Nan::New<v8::Number>(w));
   }
 
