@@ -37,6 +37,9 @@ void OpenSlideObject::Init(v8::Local<v8::Object> exports) {
     Nan::SetAccessor(itpl,
                       Nan::New("levelDownsamples").ToLocalChecked(),
                       OpenSlideObject::GetLevelDownsamples);
+    Nan::SetAccessor(itpl,
+                      Nan::New("propertyNames").ToLocalChecked(),
+                      OpenSlideObject::GetSlidePropertyNames);
 
     constructor.Reset(tpl->GetFunction());
     exports->Set(Nan::New("OpenSlideObject").ToLocalChecked(), tpl->GetFunction());
@@ -145,6 +148,18 @@ NAN_GETTER(OpenSlideObject::GetLevelDownsamples) {
     double w = downsamples[i];
     Nan::Set(result,i, Nan::New<v8::Number>(w));
   }
+  info.GetReturnValue().Set(result);
+}
 
+NAN_GETTER(OpenSlideObject::GetSlidePropertyNames) {
+  OpenSlideObject *obj = ObjectWrap::Unwrap<OpenSlideObject>(info.Holder());
+
+  std::map<std::string,std::string> pMap = obj->_properties;
+  v8::Local<v8::Array> result = Nan::New<v8::Array>(pMap.size());
+  int i = 0;
+  for (map<string,string>::iterator it = pMap.begin(); it != pMap.end(); ++it) {
+    Nan::Set(result,i, Nan::New<String>(it->first).ToLocalChecked());
+    i++;
+  }
   info.GetReturnValue().Set(result);
 }
