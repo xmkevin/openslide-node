@@ -17,6 +17,7 @@ class OpenSlideObject : public Nan::ObjectWrap {
         static Nan::Persistent<v8::Function> constructor;
         static void New(const Nan::FunctionCallbackInfo<v8::Value>& info);
         static void Open(const Nan::FunctionCallbackInfo<v8::Value>& info);
+        static void GetPropertyValue(const Nan::FunctionCallbackInfo<v8::Value>& info);
         static void ReadRegion(const Nan::FunctionCallbackInfo<v8::Value>& info);
         // Properties
         static NAN_GETTER(GetLevelCount);

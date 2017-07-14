@@ -22,6 +22,7 @@ void OpenSlideObject::Init(v8::Local<v8::Object> exports) {
     // Methods
     Nan::SetPrototypeMethod(tpl,"open",Open);
     Nan::SetPrototypeMethod(tpl,"readRegion",ReadRegion);
+    Nan::SetPrototypeMethod(tpl,"getPropertyValue",GetPropertyValue);
 
     // Properties
     v8::Local<v8::ObjectTemplate> itpl = tpl->InstanceTemplate();
@@ -105,6 +106,14 @@ void OpenSlideObject::Open(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 
 void OpenSlideObject::ReadRegion(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 
+}
+
+void OpenSlideObject::GetPropertyValue(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+  OpenSlideObject *obj = ObjectWrap::Unwrap<OpenSlideObject>(info.Holder());
+  v8::String::Utf8Value val(info[0]->ToString());
+  std::string propertyName (*val);
+  std::string propertyValue = obj->_properties[propertyName];
+  info.GetReturnValue().Set(Nan::New(propertyValue).ToLocalChecked());
 }
 
 
