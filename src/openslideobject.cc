@@ -2,6 +2,9 @@
 
 Nan::Persistent<v8::Function> OpenSlideObject::constructor;
 
+static const size_t DATA_SIZE = 256 * 256 * 4;
+static char data[DATA_SIZE];
+
 OpenSlideObject::OpenSlideObject(string fileName) {
     _fileName = fileName;
 }
@@ -105,7 +108,22 @@ void OpenSlideObject::Open(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 }
 
 void OpenSlideObject::ReadRegion(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+  OpenSlideObject *obj = ObjectWrap::Unwrap<OpenSlideObject>(info.Holder());
+  openslide_t *osr = obj->_osr;
 
+  int32_t level = info[0]->Int32Value();
+  int64_t x = info[1]->Int32Value();
+  int64_t y = info[2]->Int32Value();
+  int64_t w = info[3]->Int32Value();
+  int64_t h = info[4]->Int32Value();
+  if (w > 256 || h > 256) {
+    info.GetReturnValue().Set(Nan::New(0));
+    return;
+  }
+
+  openslide_read_region(osr,(uint32_t *)&data,x,y,level,w,h);
+  int64_t dataSize = w * h * 4;
+  info.GetReturnValue().Set(CopyBuffer(data,dataSize).ToLocalChecked());
 }
 
 void OpenSlideObject::GetPropertyValue(const Nan::FunctionCallbackInfo<v8::Value>& info) {
